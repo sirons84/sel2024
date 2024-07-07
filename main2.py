@@ -29,11 +29,12 @@ st.markdown('''
 st.markdown('''
     :red[도와준이] :orange[울산] :green[화진초] :blue[석희철]''')
 
-# 페이지를 새로고침하면 선택했던 드롭다운 항목 초기화
-if 'persona' in st.session_state:
-    del st.session_state['persona']
-if 'framework' in st.session_state:
-    del st.session_state['framework']
+# 초기화 버튼 추가
+if st.button("초기화"):
+    if 'persona' in st.session_state:
+        del st.session_state['persona']
+    if 'framework' in st.session_state:
+        del st.session_state['framework']
 
 # 학생 페르소나 선택
 persona_options = [
@@ -98,7 +99,7 @@ if prompt:
 
     # 입력한 메시지 UI에 표시
     with st.chat_message(message.role):
-        st.write(message.content)
+        st.write(message.content[0].text.value)
 
     # RUN을 돌리는 과정
     run = client.beta.threads.runs.create(
@@ -121,4 +122,4 @@ if prompt:
     )
     # 마지막 메세지 UI에 표시하기
     with st.chat_message(messages.data[-1].role):
-        st.write(messages.data[-1].content)
+        st.write(messages.data[-1].content[0].text.value)
