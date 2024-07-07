@@ -5,7 +5,6 @@ from openai import OpenAI
 import time
 from dotenv import load_load_dotenv
 
-load_dotenv()
 
 api_key = os.getenv("OPENAI_API_KEY")
 
