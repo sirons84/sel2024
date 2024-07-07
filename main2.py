@@ -15,14 +15,18 @@ if 'thread_id_2' not in st.session_state:
 
 # thread_id, assistant_id 설정
 thread_id_2 = st.session_state.thread_id_2
-assistant_id = "asst_L0RsNgtolOUcvbPVOcE9ZyXx"
+assistant_id = "asst_I1cokkUAGv3SMqt9XrcPmw8X"
 
 # 메세지 모두 불러오기
 thread_messages = client.beta.threads.messages.list(thread_id_2, order="asc")
 
 # 페이지 제목
-st.header("2024학년 호계초등학교 교육계획 확인하기")
+st.header("AIDI와 관련하여 사회정서학습(SEL) 연결을 도와주는 챗봇")
+st.markdown('''
+    :red[만든이] :orange[울산] :green[호계초] :blue[신재광] 
+     red[도와준이] :orange[울산] :green[화진초] :blue[석희철]''')
 
+    
 # 메세지 가져와서 UI에 뿌려주기
 for msg in thread_messages.data:
     with st.chat_message(msg.role):
