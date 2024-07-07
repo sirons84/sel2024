@@ -22,9 +22,11 @@ thread_messages = client.beta.threads.messages.list(thread_id_2, order="asc")
 
 # 페이지 제목
 st.header("AIDI와 관련하여 사회정서학습(SEL) 연결을 도와주는 챗봇")
+st.header('AIDT를 사용하는 학생의 상황+바라는 AIDT를 활용한 수업형태를 물어보세요', divider='rainbow')
 st.markdown('''
-    :red[만든이] :orange[울산] :green[호계초] :blue[신재광] 
-     red[도와준이] :orange[울산] :green[화진초] :blue[석희철]''')
+    :red[만든이] :orange[울산] :green[호계초] :blue[신재광]''')
+st.markdown('''
+    :red[도와준이] :orange[울산] :green[화진초] :blue[석희철]''')
 
     
 # 메세지 가져와서 UI에 뿌려주기
