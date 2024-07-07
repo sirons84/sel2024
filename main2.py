@@ -19,9 +19,7 @@ assistant_id = "asst_I1cokkUAGv3SMqt9XrcPmw8X"
 
 # 페이지 제목
 st.header("AIDI와 관련하여 사회정서학습(SEL) 연결을 도와주는 챗봇")
-st.write('AIDT를 사용하는 학생의 상황+바라는 AIDT를 활용한 사회정서학습 아이디어를 물어보세요')
-st.write('예) 디지털 역량이 낮은 학생들이 AIDT를 이용하여 사회성을 기를 수 있는 사회정서학습 예시를 알려줘', divider='rainbow')
-
+st.write('AIDT를 사용하는 학생의 상황+바라는 AIDT를 활용한 수업형태를 물어보세요', divider='rainbow')
 st.markdown('''
     :문서출처: 디지털 기반 사회정서학습(SEL) 활용 사례 및 모델탐색 - 김현구, 2023, KERIS ''')
 st.markdown('''
@@ -30,19 +28,38 @@ st.markdown('''
     :red[도와준이] :orange[울산] :green[화진초] :blue[석희철]''')
 
 # 학생 페르소나 선택
-persona = st.selectbox(
-    "학생 페르소나를 선택하세요",
-    [
-        "학습 성적 높지만 디지털 역량이 낮은 학생",
-        "학습 성적 낮고 디지털 역량도 낮은 학생",
-        "학습 성적 높고 디지털 역량도 높은 학생",
-        "학습 성적 낮지만 디지털 역량은 높은 학생"
-    ]
-)
+persona_options = [
+    "학습 성적 높지만 디지털 역량이 낮은 학생",
+    "학습 성적 낮고 디지털 역량도 낮은 학생",
+    "학습 성적 높고 디지털 역량도 높은 학생",
+    "학습 성적 낮지만 디지털 역량은 높은 학생",
+    "직접 쓰기"
+]
+framework_options = [
+    "자기인식(self-awareness)",
+    "자기 관리(self-management)",
+    "사회적 인식(social awareness)",
+    "대인 관계 기술(relationship skills)",
+    "책임 있는 결정(making responsible decisions)",
+    "기타"
+]
 
-# 학생 페르소나에 따른 설명 표시
-if persona:
+# 드롭다운 메뉴 한 줄에 2개로 구성
+col1, col2 = st.columns(2)
+with col1:
+    persona = st.selectbox("학생 페르소나를 선택하세요", persona_options)
+
+with col2:
+    framework = st.selectbox("사회정서학습 프레임워크를 선택하세요", framework_options)
+
+# 사용자가 직접 쓰기를 선택한 경우
+if persona == "직접 쓰기":
+    persona = st.text_input("학생 페르소나를 직접 입력하세요")
+
+# 선택된 옵션을 표시
+if persona and framework:
     st.write(f"선택된 학생 페르소나: {persona}")
+    st.write(f"선택된 사회정서학습 프레임워크: {framework}")
 
 # 메세지 모두 불러오기
 thread_messages = client.beta.threads.messages.list(thread_id_2, order="asc")
@@ -55,13 +72,13 @@ for msg in thread_messages.data:
 # 입력창에 입력을 받아서 입력된 내용으로 메세지 생성
 prompt = st.chat_input("물어보고 싶은 것을 입력하세요!")
 if prompt:
-    # 사용자가 선택한 페르소나를 포함하여 프롬프트 구성
-    full_prompt = f"학생 페르소나: {persona}\n질문: {prompt}"
+    # 사용자가 선택한 페르소나와 프레임워크를 포함하여 프롬프트 구성
+    full_prompt = f"학생 페르소나: {persona}\n사회정서학습 프레임워크: {framework}\n질문: {prompt}"
 
     message = client.beta.threads.messages.create(
         thread_id=thread_id_2,  # 'thread_id'를 변수로 사용
         role="user",
-        content=full_prompt  # 선택된 페르소나를 포함한 프롬프트
+        content=full_prompt  # 선택된 페르소나와 프레임워크를 포함한 프롬프트
     )
 
     # 입력한 메시지 UI에 표시
