@@ -3,6 +3,9 @@ import streamlit as st
 import openai
 from openai import OpenAI
 import time
+from dotenv import load_load_dotenv
+
+load_dotenv()
 
 api_key = os.getenv("OPENAI_API_KEY")
 
@@ -22,7 +25,9 @@ thread_messages = client.beta.threads.messages.list(thread_id_2, order="asc")
 
 # 페이지 제목
 st.header("AIDI와 관련하여 사회정서학습(SEL) 연결을 도와주는 챗봇")
-st.header('AIDT를 사용하는 학생의 상황+바라는 AIDT를 활용한 수업형태를 물어보세요', divider='rainbow')
+st.write('AIDT를 사용하는 학생의 상황+바라는 AIDT를 활용한 수업형태를 물어보세요', divider='rainbow')
+st.markdown('''
+    :문서출처: 디지털 기반 사회정서학습(SEL) 활용 사례 및 모델탐색 - 김현구, 2023, KERIS ''')
 st.markdown('''
     :red[만든이] :orange[울산] :green[호계초] :blue[신재광]''')
 st.markdown('''
