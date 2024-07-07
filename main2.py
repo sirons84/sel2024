@@ -19,7 +19,7 @@ assistant_id = "asst_I1cokkUAGv3SMqt9XrcPmw8X"
 
 # 페이지 제목
 st.header("AIDI와 관련하여 사회정서학습(SEL) 연결을 도와주는 챗봇")
-st.write('AIDT를 사용하는 학생의 상황+바라는 AIDT를 활용한 수업형태를 물어보세요', divider='rainbow')
+st.write('학생 페르소나+사회정서학습 프레임워크 를 선택하면 AIDT를 활용한 사회정서학습 예시를 알려줍니다.', divider='rainbow')
 st.markdown('''
     :문서출처: 디지털 기반 사회정서학습(SEL) 활용 사례 및 모델탐색 - 김현구, 2023, KERIS ''')
 st.markdown('''
@@ -41,7 +41,7 @@ framework_options = [
     "사회적 인식(social awareness)",
     "대인 관계 기술(relationship skills)",
     "책임 있는 결정(making responsible decisions)",
-    "기타"
+    "직접 쓰기"
 ]
 
 # 드롭다운 메뉴 한 줄에 2개로 구성
@@ -55,6 +55,9 @@ with col2:
 # 사용자가 직접 쓰기를 선택한 경우
 if persona == "직접 쓰기":
     persona = st.text_input("학생 페르소나를 직접 입력하세요")
+
+if framework == "직접 쓰기":
+    framework = st.text_input("사회정서학습 프레임워크를 직접 입력하세요")
 
 # 선택된 옵션을 표시
 if persona and framework:
