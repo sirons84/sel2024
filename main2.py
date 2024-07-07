@@ -17,29 +17,9 @@ if 'thread_id_2' not in st.session_state:
 thread_id_2 = st.session_state.thread_id_2
 assistant_id = "asst_I1cokkUAGv3SMqt9XrcPmw8X"
 
-# 배경 이미지 설정
-def set_background(image_file):
-    bin_str = image_file.read()
-    data_url = f"data:image/jpeg;base64,{base64.b64encode(bin_str).decode()}"
-    st.markdown(
-        f"""
-        <style>
-        .stApp {{
-            background: url("{data_url}");
-            background-size: cover;
-        }}
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
-
-# 이미지 파일 읽기
-with open("/mnt/data/cdc-EpMIv296POE-unsplash.jpg", "rb") as image_file:
-    set_background(image_file)
-
 # 페이지 제목
 st.header("AIDI와 관련하여 사회정서학습(SEL) 연결을 도와주는 챗봇")
-st.write('학생 페르소나+사회정서학습 프레임워크를 선택한 후 "위 조건을 이용한 AIDT를 활용한 사회정서학습 예시를 알려줍니다.', divider='rainbow')
+st.write('학생 페르소나+사회정서학습 프레임워크 를 선택한 후 "위 조건을 이용한 AIDT를 활용한 사회정서학습 예시를 알려줍니다.', divider='rainbow')
 st.markdown('''
     :문서출처: (1) 디지털 기반 사회정서학습(SEL) 활용 사례 및 모델탐색 - 김현구, 2023, KERIS ''')
 st.markdown('''
@@ -130,6 +110,5 @@ if prompt:
         thread_id=thread_id_2
     )
     # 마지막 메세지 UI에 표시하기
-    with st.chat_message(messages.data[-1].role):
-        st.write(messages.data[-1].content[0].text.value)
-
+    with st.chat_message(messages.data[0].role):
+        st.write(messages.data[0].content[0].text.value)
