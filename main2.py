@@ -29,13 +29,6 @@ st.markdown('''
 st.markdown('''
     :red[도와준이] :orange[울산] :green[화진초] :blue[석희철]''')
 
-# 초기화 버튼 추가
-if st.button("초기화"):
-    if 'persona' in st.session_state:
-        del st.session_state['persona']
-    if 'framework' in st.session_state:
-        del st.session_state['framework']
-
 # 학생 페르소나 선택
 persona_options = [
     "학습 성적 높지만 디지털 역량이 낮은 학생",
@@ -83,7 +76,7 @@ thread_messages = client.beta.threads.messages.list(thread_id_2, order="asc")
 # 메세지 가져와서 UI에 뿌려주기
 for msg in thread_messages.data:
     with st.chat_message(msg.role):
-        st.write(msg.content[0].text.value)  # content를 정확히 참조
+        st.write(msg.content)  # content를 정확히 참조
 
 # 입력창에 입력을 받아서 입력된 내용으로 메세지 생성
 prompt = st.chat_input("물어보고 싶은 것을 입력하세요!")
@@ -99,7 +92,7 @@ if prompt:
 
     # 입력한 메시지 UI에 표시
     with st.chat_message(message.role):
-        st.write(message.content[0].text.value)
+        st.write(message.content)
 
     # RUN을 돌리는 과정
     run = client.beta.threads.runs.create(
@@ -122,4 +115,4 @@ if prompt:
     )
     # 마지막 메세지 UI에 표시하기
     with st.chat_message(messages.data[-1].role):
-        st.write(messages.data[-1].content[0].text.value)
+        st.write(messages.data[-1].content)
