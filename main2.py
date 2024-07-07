@@ -84,9 +84,6 @@ for msg in thread_messages.data:
     with st.chat_message(msg.role):
         st.write(msg.content[0].text.value)  # content를 정확히 참조
 
-# '위 조건을 이용하여 사회정서학습 수업 아이디어를 알려줘' 메시지 추가
-st.chat_message("assistant").write("위 조건을 이용하여 사회정서학습 수업 아이디어를 알려줘")
-
 # 입력창에 입력을 받아서 입력된 내용으로 메세지 생성
 prompt = st.chat_input("물어보고 싶은 것을 입력하세요!")
 if prompt:
