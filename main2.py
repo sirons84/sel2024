@@ -19,7 +19,7 @@ assistant_id = "asst_I1cokkUAGv3SMqt9XrcPmw8X"
 
 # 페이지 제목
 st.header("AIDI와 관련하여 사회정서학습(SEL) 연결을 도와주는 챗봇")
-st.write('학생 페르소나+사회정서학습 프레임워크를 선택한 후 "위 조건을 이용한 AIDT를 활용한 사회정서학습 아이디어를 알려줘"', divider='rainbow')
+st.write('학생 페르소나+사회정서학습 프레임워크 를 선택한 후 "위 조건을 이용한 AIDT를 활용한 사회정서학습 예시를 알려줍니다.', divider='rainbow')
 st.markdown('''
     :문서출처: (1) 디지털 기반 사회정서학습(SEL) 활용 사례 및 모델탐색 - 김현구, 2023, KERIS ''')
 st.markdown('''
@@ -49,21 +49,17 @@ framework_options = [
 # 드롭다운 메뉴 한 줄에 2개로 구성
 col1, col2 = st.columns(2)
 with col1:
-    persona = st.selectbox("학생 페르소나를 선택하세요", persona_options, key='persona')
+    persona = st.selectbox("학생 페르소나를 선택하세요", persona_options)
 
 with col2:
-    framework = st.selectbox("사회정서학습 프레임워크를 선택하세요", framework_options, key='framework')
+    framework = st.selectbox("사회정서학습 프레임워크를 선택하세요", framework_options)
 
 # 사용자가 직접 쓰기를 선택한 경우
-if st.session_state.persona == "직접 쓰기":
+if persona == "직접 쓰기":
     persona = st.text_input("학생 페르소나를 직접 입력하세요")
-else:
-    persona = st.session_state.persona
 
-if st.session_state.framework == "직접 쓰기":
+if framework == "직접 쓰기":
     framework = st.text_input("사회정서학습 프레임워크를 직접 입력하세요")
-else:
-    framework = st.session_state.framework
 
 # 선택된 옵션을 표시
 if persona and framework:
@@ -76,7 +72,7 @@ thread_messages = client.beta.threads.messages.list(thread_id_2, order="asc")
 # 메세지 가져와서 UI에 뿌려주기
 for msg in thread_messages.data:
     with st.chat_message(msg.role):
-        st.write(msg.content)  # content를 정확히 참조
+        st.write(msg.content[0].text.value)  # content를 정확히 참조
 
 # 입력창에 입력을 받아서 입력된 내용으로 메세지 생성
 prompt = st.chat_input("물어보고 싶은 것을 입력하세요!")
@@ -92,7 +88,7 @@ if prompt:
 
     # 입력한 메시지 UI에 표시
     with st.chat_message(message.role):
-        st.write(message.content)
+        st.write(message.content[0].text.value)
 
     # RUN을 돌리는 과정
     run = client.beta.threads.runs.create(
@@ -114,5 +110,5 @@ if prompt:
         thread_id=thread_id_2
     )
     # 마지막 메세지 UI에 표시하기
-    with st.chat_message(messages.data[-1].role):
-        st.write(messages.data[-1].content)
+    with st.chat_message(messages.data[0].role):
+        st.write(messages.data[0].content[0].text.value)
