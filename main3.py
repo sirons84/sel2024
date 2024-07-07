@@ -19,7 +19,9 @@ assistant_id = "asst_I1cokkUAGv3SMqt9XrcPmw8X"
 
 # 페이지 제목
 st.header("AIDI와 관련하여 사회정서학습(SEL) 연결을 도와주는 챗봇")
-st.write('AIDT를 사용하는 학생의 상황+바라는 AIDT를 활용한 수업형태를 물어보세요', divider='rainbow')
+st.write('AIDT를 사용하는 학생의 상황+바라는 AIDT를 활용한 사회정서학습 아이디어를 물어보세요')
+st.write('예) 디지털 역량이 낮은 학생들이 AIDT를 이용하여 사회성을 기를 수 있는 사회정서학습 예시를 알려줘', divider='rainbow')
+
 st.markdown('''
     :문서출처: 디지털 기반 사회정서학습(SEL) 활용 사례 및 모델탐색 - 김현구, 2023, KERIS ''')
 st.markdown('''
