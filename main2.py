@@ -25,6 +25,8 @@ st.markdown('''
 st.markdown('''
     :문서출처: (2) 사회·정서적 학습(SEL), 학생-학부모-교사 모두에게 도입해야! - 이찬승, 2023, 교육을 바꾸는 사람들 ''')
 st.markdown('''
+    :문서출처: (3) AI 디지털교과서 개발 가이드라인 - KERIS, 2023 ''')
+st.markdown('''
     :red[만든이] :orange[울산] :green[호계초] :blue[신재광]''')
 st.markdown('''
     :red[도와준이] :orange[울산] :green[화진초] :blue[석희철]''')
