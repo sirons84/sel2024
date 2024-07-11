@@ -19,98 +19,75 @@ assistant_id = "asst_I1cokkUAGv3SMqt9XrcPmw8X"
 
 # 페이지 제목
 st.header("AIDT와 관련하여 사회정서학습(SEL) 연결을 도와주는 챗봇")
-st.write('학생 페르소나+사회정서학습 프레임워크 를 선택한 후 "위 조건을 이용한 AIDT를 활용한 사회정서학습 수업 예시or 아이디어를 알려줍니다.', divider='rainbow')
-st.markdown('''
-    :문서출처: (1) 디지털 기반 사회정서학습(SEL) 활용 사례 및 모델탐색 - 김현구, 2023, KERIS ''')
-st.markdown('''
-    :문서출처: (2) 사회·정서적 학습(SEL), 학생-학부모-교사 모두에게 도입해야! - 이찬승, 2023, 교육을 바꾸는 사람들 ''')
-st.markdown('''
-    :문서출처: (3) AI 디지털교과서 개발 가이드라인 - KERIS, 2023 ''')
-st.markdown('''
-                          :red[만든이] :orange[울산] :green[호계초] :blue[신재광]''')
-st.markdown('''
-                          :red[도와준이] :orange[울산] :green[화진초] :blue[석희철]''')
+st.write('학생 맥락과 AIDT 기능, 그리고 AI 기반 지원 방안을 단계적으로 입력해주세요.', divider='rainbow')
 
-# 학생 페르소나 선택
-persona_options = [
-    "학습 성적 높지만 디지털 역량이 낮은 학생",
-    "학습 성적 낮고 디지털 역량도 낮은 학생",
-    "학습 성적 높고 디지털 역량도 높은 학생",
-    "학습 성적 낮지만 디지털 역량은 높은 학생",
-    "직접 쓰기"
-]
-framework_options = [
-    "자기인식(self-awareness)",
-    "자기 관리(self-management)",
-    "사회적 인식(social awareness)",
-    "대인 관계 기술(relationship skills)",
-    "책임 있는 결정(making responsible decisions)",
-    "직접 쓰기"
-]
+# Step 1: 학생 맥락 입력
+st.subheader("STEP 1. 학생 맥락")
+student_context = st.text_area("이 학생의 맥락을 자세히 작성해주세요.")
 
-# 드롭다운 메뉴 한 줄에 2개로 구성
-col1, col2 = st.columns(2)
-with col1:
-    persona = st.selectbox("학생 페르소나를 선택하세요", persona_options)
+# Step 2: AIDT 기능 선택
+st.subheader("STEP 2. AIDT 기능 선택")
+aidt_functions = {
+    "학습진단": ["성취수준 진단", "학습현황 분석"],
+    "학습추천": ["학습경로 추천", "학습 처방"],
+    "맞춤형 콘텐츠": ["다양한 콘텐츠 제공", "학습처방 콘텐츠 제공", "피드백 및 도움말 제공"],
+    "대시보드": ["학습 참여도 정보 제공", "학습 이력 정보 제공", "학습 분석 정보 제공"],
+    "AI튜터": ["질의응답", "추가학습자료 제공", "학습 전략 제안", "학습진도 모니터링", "피드백 및 성취도 평가", "오답노트 제공"],
+    "AI 보조교사": ["수업설계 지원", "피드백 설계 지원", "평가 지원", "학생 모니터링 지원"],
+    "교사 재구성 기능": ["학습 활동 재구성 대시보드 구성", "학습 관리", "학습자 관리"]
+}
 
-with col2:
-    framework = st.selectbox("사회정서학습 프레임워크를 선택하세요", framework_options)
+selected_aidt_functions = st.multiselect("AIDT 기능을 2개 선택해주세요.", list(aidt_functions.keys()))
 
-# 사용자가 직접 쓰기를 선택한 경우
-if persona == "직접 쓰기":
-    persona = st.text_input("학생 페르소나를 직접 입력하세요")
+# Step 3: AI 기반 지원 방안 입력
+st.subheader("STEP 3. AI 기반 지원 방안")
+cognitive_emotional_support = st.text_area("이 학생에게는 어떤 인지적 및 정서적 지원이 필요할까요?")
+customized_support = st.text_area("이 학생에게 필요한 맞춤형 지원은 또 무엇이 있을까요?")
+data_needed = st.text_area("이 학생의 배움 상황을 평가하고 개선하기 위해 어떤 데이터가 필요할까요?")
 
-if framework == "직접 쓰기":
-    framework = st.text_input("사회정서학습 프레임워크를 직접 입력하세요")
+# 프롬프트 생성
+full_prompt = f"""
+학생 맥락:
+{student_context}
 
-# 선택된 옵션을 표시
-if persona and framework:
-    st.write(f"선택된 학생 페르소나: {persona}")
-    st.write(f"선택된 사회정서학습 프레임워크: {framework}")
+AIDT 기능:
+{', '.join(selected_aidt_functions)}
 
-# 메세지 모두 불러오기
-thread_messages = client.beta.threads.messages.list(thread_id_2, order="asc")
+인지적 및 정서적 지원:
+{cognitive_emotional_support}
 
-# 메세지 가져와서 UI에 뿌려주기
-for msg in thread_messages.data:
-    with st.chat_message(msg.role):
-        st.write(msg.content[0].text.value)  # content를 정확히 참조
+맞춤형 지원:
+{customized_support}
 
-# 입력창에 입력을 받아서 입력된 내용으로 메세지 생성
-prompt = st.chat_input("물어보고 싶은 것을 입력하세요!")
-if prompt:
-    # 사용자가 선택한 페르소나와 프레임워크를 포함하여 프롬프트 구성
-    full_prompt = f"학생 페르소나: {persona}\n사회정서학습 프레임워크: {framework}\n질문: {prompt}"
+필요한 데이터:
+{data_needed}
+"""
 
-    message = client.beta.threads.messages.create(
-        thread_id=thread_id_2,  # 'thread_id'를 변수로 사용
-        role="user",
-        content=full_prompt  # 선택된 페르소나와 프레임워크를 포함한 프롬프트
-    )
+# 프롬프트 실행 및 결과 출력
+message = client.beta.threads.messages.create(
+    thread_id=thread_id_2,
+    role="user",
+    content=full_prompt
+)
 
-    # 입력한 메시지 UI에 표시
-    with st.chat_message(message.role):
-        st.write(message.content[0].text.value)
+with st.chat_message(message.role):
+    st.write(message.content[0].text.value)
 
-    # RUN을 돌리는 과정
-    run = client.beta.threads.runs.create(
+run = client.beta.threads.runs.create(
+    thread_id=thread_id_2,
+    assistant_id=assistant_id,
+)
+
+while run.status != "completed":
+    time.sleep(1)
+    run = client.beta.threads.runs.retrieve(
         thread_id=thread_id_2,
-        assistant_id=assistant_id,
+        run_id=run.id,
     )
 
-    # RUN이 completed 되었나 1초마다 체크
-    while run.status != "completed":
-        print("status 확인중", run.status)
-        time.sleep(1)
-        run = client.beta.threads.runs.retrieve(
-            thread_id=thread_id_2,
-            run_id=run.id,
-        )
+messages = client.beta.threads.messages.list(
+    thread_id=thread_id_2
+)
 
-    # while문을 빠져나왔다는 것은 완료됐다는 것이니 메세지 불러오기
-    messages = client.beta.threads.messages.list(
-        thread_id=thread_id_2
-    )
-    # 마지막 메세지 UI에 표시하기
-    with st.chat_message(messages.data[0].role):
-        st.write(messages.data[0].content[0].text.value)
+with st.chat_message(messages.data[0].role):
+    st.write(messages.data[0].content[0].text.value)
